@@ -2,7 +2,7 @@
 # See:
 # https://registry.terraform.io/providers/terraform-provider-openstack/openstack/latest/docs/resources/networking_network_v2
 # https://registry.terraform.io/providers/terraform-provider-openstack/openstack/latest/docs/resources/networking_subnet_v2
-#https://registry.terraform.io/providers/terraform-provider-openstack/openstack/latest/docs/resources/networking_router_v2  https://registry.terraform.io/providers/terraform-provider-openstack/openstack/latest/docs/resources/networking_router_interface_v2
+# https://registry.terraform.io/providers/terraform-provider-openstack/openstack/latest/docs/resources/networking_router_v2  https://registry.terraform.io/providers/terraform-provider-openstack/openstack/latest/docs/resources/networking_router_interface_v2
 #
 module "networking"{
   source = "./modules/networking"
@@ -37,11 +37,6 @@ module "networking"{
 # module "server1" {
 #   source = "./modules/server"
 #   server_name = var.server1_name
-#   flavor_name = var.flavor_name
-#   key_name = var.key_name
-#   user_data_file = var.user_data1_file
-#   net_name=var.network_name
-#   secgroup_name=var.security_group_name
 #}
 
 # # Creación de un servidor con nginx en la red creada (donde estará el balanceador de carga)
@@ -50,11 +45,6 @@ module "networking"{
 # module "server1" {
 #   source = "./modules/server"
 #   server_name = var.server2_name
-#   flavor_name = var.flavor_name
-#   key_name = var.key_name
-#   user_data_file = var.user_data2_file
-#   net_name=var.network_name
-#   secgroup_name=var.security_group_name
 #}
 
 # # Creación de un servidor con nginx en la red creada (donde estará el balanceador de carga)
@@ -63,11 +53,6 @@ module "networking"{
 # module "server1" {
 #   source = "./modules/server"
 #   server_name = var.server3_name
-#   flavor_name = var.flavor_name
-#   key_name = var.key_name
-#   user_data_file = var.user_data3_file
-#   net_name=var.network_name
-#   secgroup_name=var.security_group_name
 #}
 
 # # Reservar una IP flotante para el proyecto:
