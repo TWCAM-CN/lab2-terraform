@@ -1,4 +1,3 @@
-output "floating_ip_address" {
-  description = "The assigned floating IP address."
-  value       = openstack_networking_floatingip_v2.floating_ip.address
+output "instance_id" {
+  value = openstack_networking_floatingip_v2.fip.id
 }

@@ -21,3 +21,9 @@ variable server2_name {
     type        = string
     default     = "Node2"
 }
+
+variable secgroup_name {
+    description = "The name of the secgroup_name"
+    type        = string
+    default     = "proyecto11_secgroup"
+}
