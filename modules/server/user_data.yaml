@@ -1,0 +1,16 @@
+#cloud-config
+package_update: true
+packages:
+  - nginx-light
+
+runcmd:
+  - |
+    cat <<EOF > /var/www/html/index.html
+    <html>
+    <body>
+    <h1>Respuesta desde el nodo $NODE_NUMBER</h1>
+    Contenido...
+    </body>
+    </html>
+    EOF
+  - systemctl restart nginx

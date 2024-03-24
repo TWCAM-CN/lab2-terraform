@@ -25,3 +25,9 @@ variable "net_id" {
 variable "user_data_file" {
   description = "The user data file to configure the server on boot."
 }
+
+
+variable "node_number" {
+  description = "Node identifier for the instance"
+  type        = string
+}

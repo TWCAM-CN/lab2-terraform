@@ -8,5 +8,9 @@ resource "openstack_compute_instance_v2" "proyecto11_server" {
     uuid = var.net_id
   }
 
-  user_data = file(var.user_data_file)
+ user_data = templatefile("${path.module}/user_data.yaml", {
+    NODE_NUMBER = var.node_number
+  })
 }
+
+

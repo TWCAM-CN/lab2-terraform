@@ -37,6 +37,7 @@ module "networking"{
 # module "server1" {
 #   source = "./modules/server"
 #   server_name = var.server1_name
+#   node_number = "0"
 #}
 
 # # Creación de un servidor con nginx en la red creada (donde estará el balanceador de carga)
@@ -45,6 +46,7 @@ module "networking"{
 # module "server1" {
 #   source = "./modules/server"
 #   server_name = var.server2_name
+#   node_number = "1"
 #}
 
 # # Creación de un servidor con nginx en la red creada (donde estará el balanceador de carga)
@@ -53,6 +55,7 @@ module "networking"{
 # module "server1" {
 #   source = "./modules/server"
 #   server_name = var.server3_name
+#   node_number = "2"
 #}
 
 # # Reservar una IP flotante para el proyecto:
