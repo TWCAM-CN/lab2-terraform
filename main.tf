@@ -1,9 +1,11 @@
 module "networking"{
   source = "./modules/networking"
+  instance_id = module.server.server_id
   ext_net_name = var.external_network_name
   net_name = var.network_name
   subnet_name = var.subnetwork_name
   router_name = var.router_name
+
 }
 
 module "secgroup"{
@@ -13,7 +15,7 @@ module "secgroup"{
 
 module "secgroup_rule" {
     source             = "./modules/secgroup_rule"
-    security_group_id  = openstack_networking_secgroup_v2.proyecto11_secgroup.id
+    security_group_id  = module.secgroup.secgroup_id
 }
 
 module "server0" {
@@ -40,6 +42,6 @@ module "server2" {
 
 module "floating_ip" {
    source = "./modules/floating_ip"
-   pool = var.pool_name
+   pool = var.pool
    instance_id = module.networking.instance_id
 }

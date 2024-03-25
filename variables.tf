@@ -27,3 +27,13 @@ variable secgroup_name {
     type        = string
     default     = "proyecto11_secgroup"
 }
+
+variable "flavor_id" {
+  description = "El ID del flavor para las instancias de servidor."
+  type        = string
+}
+
+variable "pool" {
+  description = "El nombre del pool de IPs flotantes."
+  type        = string
+}

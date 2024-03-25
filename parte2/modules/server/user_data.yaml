@@ -1,0 +1,30 @@
+#cloud-config
+package_update: true
+
+password: twcam2023
+users:
+  - name: ubuntu
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    lock_passwd: false
+    ssh_authorized_keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDg8Nyku3bipbAqoTkz9g8k6a+UBfE6OeZMCHSmWZKRDZIbbRwXZIq/N9daCTyKn5uMlUQGKPgjcYpeLDalU4yDSIDllW71EyB3uxAHwArD3Mzx/gRP0xiybCLG43gpw7kQ/Cnt2hV8JRsP52OQwafRR2FclsmQRH6BN9/AreUftCRE/wj8MPAGGzdcxJryAeHELlHLCEFeIkCXCfJplQPYnUXmcjD1KeJ9kSSd7mEtFnXxwg3j4nmdSNu5w3eZ74mlG6HudnHG9MxPW5GVs0jEOXwJxn8owmoKChcuZ7aiQyp8mG9KLjGRoOJw7eVb0jVvkrAnNEEht+aebND2ms6n Generated-by-Nova
+    passwd: twcam2023
+
+packages:
+  - nginx-light
+
+write_files:
+  - path: /var/www/html/index.html
+    content: |
+      <html>
+      <body>
+      <h1>Respuesta desde el nodo ${NODE_NUMBER} </h1>
+      Contenido...
+      </body>
+      </html>
+
+runcmd:
+  - apt-get update
+  - apt-get upgrade -y
+  - systemctl enable nginx
+  - systemctl start nginx

@@ -1,5 +1,6 @@
 variable "pool" {
-  description = "The pool from which to obtain a floating IP."
+  description = "El nombre del pool de IPs flotantes."
+  type        = string
 }
 
 variable "instance_id" {
