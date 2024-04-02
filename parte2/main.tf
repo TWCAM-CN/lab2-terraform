@@ -55,3 +55,8 @@ module "server2" {
   server_name  = var.server2_name
   node_number  = "2"
 }
+
+module "floating_ip" {
+  source      = "./modules/floating_ip"
+  pool        = var.pool
+}

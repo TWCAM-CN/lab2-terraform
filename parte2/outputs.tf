@@ -27,3 +27,5 @@ output "server2_instance_id" {
   description = "The instance ID of server 2."
   value       = module.server2.instance_id
 }
+
+

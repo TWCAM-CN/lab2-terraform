@@ -49,3 +49,4 @@ variable "server2_name" {
 variable "secgroup_description" {
   description = "Description for the security group."
 }
+
