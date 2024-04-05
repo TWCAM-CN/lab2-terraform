@@ -28,4 +28,8 @@ output "server2_instance_id" {
   value       = module.server2.instance_id
 }
 
+output "floating_ip_address" {
+  description = "The floating IP address reserved for the infrastructure."
+  value       = module.floating_ip.floating_ip_address
+}
 

@@ -1,43 +1,45 @@
 #!/bin/bash
 
-# Variables
-loadbalancer_name="proyecto11-balanceador"
-floating_ip="<IP flotante asociada al balanceador>"
+# Variables específicas de la infraestructura
+proyecto="proyecto11"
+balanceador="$proyecto-balanceador"
+listener="$proyecto-listener"
+pool="$proyecto-pool"
+floating_ip_address=$(terraform output -raw floating_ip_address)
 
-# Carga las credenciales de OpenStack
+# Cargar variables de entorno OpenStack
 source ./proyecto11-openrc-ablastu.sh
 
-# Eliminar el health monitor, los miembros y el pool
-echo "Obteniendo ID del pool asociado al balanceador de carga..."
-pool_id=$(openstack loadbalancer pool list --loadbalancer $loadbalancer_name -f value -c id)
+# Obtener IDs necesarios
+loadbalancer_id=$(openstack loadbalancer list -f value -c id --name $balanceador)
+vip_port_id=$(openstack loadbalancer show $loadbalancer_id -f value -c vip_port_id)
+floating_ip_id=$(openstack floating ip list --floating-ip-address $floating_ip_address -f value -c ID)
 
-echo "Eliminando el health monitor del pool..."
-hm_id=$(openstack loadbalancer healthmonitor list --pool $pool_id -f value -c id)
-openstack loadbalancer healthmonitor delete $hm_id
+# Desasociar IP flotante del puerto VIP
+echo "Desasociando IP flotante $floating_ip_address del balanceador de carga..."
+openstack floating ip unset --port $vip_port_id $floating_ip_id
 
-echo "Eliminando los miembros del pool..."
-members=$(openstack loadbalancer member list $pool_id -f value -c id)
-for member_id in $members; do
-    openstack loadbalancer member delete --pool $pool_id $member_id
+# Eliminar el monitor de salud, miembros del pool y el pool
+echo "Eliminando el pool $pool y sus componentes..."
+pool_id=$(openstack loadbalancer pool list --loadbalancer $loadbalancer_id -f value -c id --name $pool)
+members_ids=$(openstack loadbalancer member list $pool_id -f value -c id)
+for member_id in $members_ids; do
+    echo "Eliminando miembro $member_id del pool $pool..."
+    openstack loadbalancer member delete $pool_id $member_id
 done
-
-echo "Eliminando el pool..."
+hm_id=$(openstack loadbalancer healthmonitor list --pool $pool_id -f value -c id)
+echo "Eliminando monitor de salud $hm_id..."
+openstack loadbalancer healthmonitor delete $hm_id
+echo "Eliminando pool $pool..."
 openstack loadbalancer pool delete $pool_id
 
 # Eliminar el listener
-echo "Obteniendo ID del listener asociado al balanceador de carga..."
-listener_id=$(openstack loadbalancer listener list --loadbalancer $loadbalancer_name -f value -c id)
-echo "Eliminando el listener..."
+echo "Eliminando listener $listener..."
+listener_id=$(openstack loadbalancer listener list --loadbalancer $loadbalancer_id -f value -c id --name $listener)
 openstack loadbalancer listener delete $listener_id
 
 # Eliminar el balanceador de carga
-echo "Eliminando el balanceador de carga..."
-openstack loadbalancer delete $loadbalancer_name
+echo "Eliminando balanceador de carga $balanceador..."
+openstack loadbalancer delete $loadbalancer_id
 
-# Desasociar la IP flotante del puerto del balanceador de carga
-echo "Desasociando la IP flotante del balanceador de carga..."
-openstack floating ip set --port None $floating_ip
-
-# Eliminar reglas de seguridad relacionadas si es necesario
-
-echo "Eliminación completada."
+echo "Infraestructura del balanceador de carga eliminada exitosamente."
