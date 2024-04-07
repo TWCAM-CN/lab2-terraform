@@ -1,39 +1,52 @@
-variable external_network_name {}
-variable network_name {}
-variable subnetwork_name {}
-variable router_name {}
-
-# Declaración del resto de variables
-variable server0_name {
-    description = "The name of the server"
-    type        = string
-    default     = "Node0"
+variable "external_network_name" {
+  description = "The name of the external network."
 }
 
-variable server1_name {
-    description = "The name of the server"
-    type        = string
-    default     = "Node1"
+variable "network_name" {
+  description = "The name of the internal network."
 }
 
-variable server2_name {
-    description = "The name of the server"
-    type        = string
-    default     = "Node2"
+variable "subnetwork_name" {
+  description = "The name of the subnetwork."
 }
 
-variable secgroup_name {
-    description = "The name of the secgroup_name"
-    type        = string
-    default     = "proyecto11_secgroup"
+variable "router_name" {
+  description = "The name of the router."
+}
+
+variable "secgroup_name" {
+  description = "The name of the security group."
 }
 
 variable "flavor_id" {
-  description = "El ID del flavor para las instancias de servidor."
-  type        = string
+  description = "The flavor id for the server instances."
+}
+
+variable "key_name" {
+  description = "The name of the key pair to use for the server instances."
+}
+
+variable "image_id" {
+  description = "The ID of the image to use for the server instances."
 }
 
 variable "pool" {
-  description = "El nombre del pool de IPs flotantes."
-  type        = string
+  description = "The pool from which to obtain a floating IP."
 }
+
+variable "server0_name" {
+  description = "The name of server 0."
+}
+
+variable "server1_name" {
+  description = "The name of server 1."
+}
+
+variable "server2_name" {
+  description = "The name of server 2."
+}
+
+variable "secgroup_description" {
+  description = "Description for the security group."
+}
+

@@ -1,6 +1,3 @@
-# Para obtener información sobre la red externa
-# Por ejemplo el id se podrá consultar así:
-# ${data.openstack_networking_network_v2.external_network.id}
 data "openstack_networking_network_v2" "external_network" {
   name = var.ext_net_name
 }

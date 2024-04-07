@@ -7,3 +7,8 @@ output "net_id" {
   value       = "${openstack_networking_network_v2.network.id}"
   description = "Id of the created net"
 }
+
+output "network_id" {
+  value = openstack_networking_network_v2.network.id
+  description = "The ID of the created network"
+}
