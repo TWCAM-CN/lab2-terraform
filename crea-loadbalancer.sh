@@ -22,9 +22,21 @@ neutron lbaas-loadbalancer-create --name $balanceador $subnet
 sleep 5
 echo ""
 
-# Esperar a que el balanceador este listo
+# Espera hasta que el balanceador de carga esté en estado ACTIVE
 echo "Esperando a que el balanceador de carga esté listo..."
-sleep 60
+while true; do
+    provisioning_status=$(neutron lbaas-loadbalancer-show $balanceador -f value -c provisioning_status)
+    if [ "$provisioning_status" == "ACTIVE" ]; then
+        echo "Balanceador de carga está activo."
+        break
+    elif [ "$provisioning_status" == "ERROR" ]; then
+        echo "Error en la creación del balanceador de carga."
+        exit 1
+    else
+        echo "Esperando... (estado actual: $provisioning_status)"
+        sleep 10
+    fi
+done
 
 # Obtener el ID del balanceador de carga
 echo "Obteniendo el ID del balanceador de carga..."
@@ -39,6 +51,22 @@ neutron lbaas-listener-create --name $listener --loadbalancer $balanceador --pro
 sleep 5
 echo "Listener creado."
 echo ""
+
+# Espera de nuevo hasta que el balanceador de carga esté en estado ACTIVE después de crear el listener
+echo "Esperando a que el balanceador de carga se actualice después de crear el listener..."
+while true; do
+    provisioning_status=$(neutron lbaas-loadbalancer-show $balanceador -f value -c provisioning_status)
+    if [ "$provisioning_status" == "ACTIVE" ]; then
+        echo "Balanceador de carga listo para la creación del pool."
+        break
+    elif [ "$provisioning_status" == "ERROR" ]; then
+        echo "Error después de la creación del listener."
+        exit 1
+    else
+        echo "Esperando... (estado actual: $provisioning_status)"
+        sleep 10
+    fi
+done
 
 # Crear el pool
 echo "Creando pool: $pool..."
